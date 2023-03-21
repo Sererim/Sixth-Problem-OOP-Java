@@ -5,17 +5,26 @@ import java.util.ArrayList;
 public class Program {
     public static void main(String[] args) {
 
-        ArrayList<Calculator> calc = new ArrayList<>();
+        Calculator z1 = new Calculator(5,5);
+        Calculator z2 = new Calculator(4);
 
-        calc.add(new Calculator());
-        calc.add(new Calculator(1,1));
-        calc.add(new Calculator(5));
-        calc.add(new Calculator(5));
+        Mod mod = new Mod();
+        Add add = new Add();
+        Multiply mult = new Multiply();
+        Divide div = new Divide();
 
-        System.out.println(Calculator.mult(calc.get(2), calc.get(2))); 
-        System.out.println(Calculator.log);
+        System.out.println(mod.mod(z1));
 
-        System.out.println(Calculator.add(calc.get(1),calc.get(0)));
-        System.out.println(Calculator.log);
+        System.out.println(add.add(z1, z2));
+        System.out.println(Log.getLog());
+
+        System.out.println(add.add(z1, z1));
+        System.out.println(Log.getLog());
+
+        System.out.println(mult.mult(z1, z2));
+        System.out.println(Log.getLog());
+
+        System.out.println(div.div(z1, z2));
+        System.out.println(Log.getLog());
     }
 }
