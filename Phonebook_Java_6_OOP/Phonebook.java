@@ -1,4 +1,4 @@
-package Phonebook_Java_5_OOP;
+package Phonebook_Java_6_OOP;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -16,8 +16,7 @@ import java.util.Arrays;
 
 public class Phonebook {
 
-    private static String filename = "Phonebook_Java_5_OOP\\book.csv";
-
+    public static String filename = "Phonebook_Java_6_OOP\\book.csv";
 
     public String namefile = "";
     public int what = 0;
@@ -30,19 +29,22 @@ public class Phonebook {
      */
     Phonebook(String file, int what, String sep)
     {
-        this.namefile ="Phonebook_Java_5_OOP\\" + file;
+        this.namefile ="Phonebook_Java_6_OOP\\" + file;
         this.what = what;
         this.parator = sep;
     }
+}
 
-    public boolean expor()
+class ExportPhoneBook
+{
+    public boolean expor(Phonebook p)
     {
-        if(this.what < 0)
+        if(p.what < 0)
         {
             // reading data from book.csv
             String foo = "";
             try{
-                foo = new String(Files.readAllBytes(Paths.get(filename)));
+                foo = new String(Files.readAllBytes(Paths.get(Phonebook.filename)));
             } catch (Exception e)
             {
                 e.printStackTrace();
@@ -54,7 +56,7 @@ public class Phonebook {
                 System.out.println(string);
             }
             // storing data from book.csv into a new file
-            try (FileWriter fw = new FileWriter(namefile, false);
+            try (FileWriter fw = new FileWriter(p.namefile, false);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter out = new PrintWriter(bw))
             {
@@ -62,7 +64,7 @@ public class Phonebook {
                 {
                     if(i % 5 == 0 && i != 0)
                         out.println();
-                    out.print(bar.get(i) + this.parator);
+                    out.print(bar.get(i) + p.parator);
                 }
             }
             catch (Exception e) {
@@ -73,25 +75,28 @@ public class Phonebook {
             return false;
         return true;
     }
+}
 
-    public boolean impor()
+class ImportPhoneBook
+{
+    public boolean impor(Phonebook p)
     {
-        if(this.what > 0)
+        if(p.what > 0)
         {
             // reading data from new file
             String foo = "";
             try{
-                foo = new String(Files.readAllBytes(Paths.get(this.namefile)));
+                foo = new String(Files.readAllBytes(Paths.get(p.namefile)));
             } catch (Exception e)
             {
                 e.printStackTrace();
             }
             ArrayList<String> bar = new ArrayList<String>();
             foo = foo.replace("\n", "").replace("\r", "").replace("\r\n", "").replaceAll("\n\r", "");
-            bar = new ArrayList<String>(Arrays.asList(foo.split(this.parator)));
+            bar = new ArrayList<String>(Arrays.asList(foo.split(p.parator)));
 
             // storing new data in book.csv
-            try (FileWriter fw = new FileWriter(filename, true);
+            try (FileWriter fw = new FileWriter(Phonebook.filename, true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter out = new PrintWriter(bw))
             {
@@ -110,5 +115,4 @@ public class Phonebook {
             return false;
         return true;
     }
-
 }
