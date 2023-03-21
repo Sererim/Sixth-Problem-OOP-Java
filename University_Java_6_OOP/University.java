@@ -1,4 +1,4 @@
-package University_Java_5_OOP;
+package University_Java_6_OOP;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -11,28 +11,27 @@ import java.util.Arrays;
 
 public class University {
     
-    private static String filename = "University_Java_5_OOP\\database.csv";
     private static int mod = 6;
-
-    private ArrayList<String> db = new ArrayList<>();
+    
+    public ArrayList<String> db = new ArrayList<>();
     private Person p;
-    private int id;
 
-    University(Person p)
-    {
+    University(Person p){
         this.p = p;
-        read();
-        getID();
+        db.addAll(ReadData.read());
     }
 
-    University()
-    {
-        read();
+    University(){
+        db.addAll(ReadData.read());
+    }
+
+    public String getMe(){
+        return this.p.toString();
     }
 
     @Override
     public String toString() {
-        read();
+        db.addAll(ReadData.read());
         String foo = "";
         if(!db.isEmpty())
         {
@@ -45,23 +44,33 @@ public class University {
         }
         return foo;
     }
+}
 
-    public void save()
+class SaveData
+{
+    private static String filename = "University_Java_6_OOP\\database.csv";
+
+    public static void save(University u)
     {
         // saving new entry to university database.
-        String foo =this.id + ";" + this.p.getMe() + ";";
+        String foo = GetID.getID(GetDB.getDB(u))+ ";" + u.getMe() + ";";
         try (FileWriter fw = new FileWriter(filename, true);
         BufferedWriter bw = new BufferedWriter(fw);
         PrintWriter out = new PrintWriter(bw))
         {
-            out.println(foo);
+            out.print(foo);
+            out.println();
         }
         catch (Exception e) {
             System.out.println("ERROR ON WRITING TO FILE!");
         }
     }
+}
 
-    private void read()
+class ReadData
+{
+    private static String filename = "University_Java_6_OOP\\database.csv";
+    public static ArrayList<String> read()
     {
         String foo = "";
         try{
@@ -73,21 +82,29 @@ public class University {
         ArrayList<String> bar = new ArrayList<String>();
         foo = foo.replace("\n", "").replace("\r", "").replace("\r\n", "").replaceAll("\n\r", "");
         bar = new ArrayList<String>(Arrays.asList(foo.split(";")));
-        db.addAll(bar);
+        return bar;
     }
+}
 
-    private void getID() {
-        if(db.size() % 6 == 0)
-            this.id = (db.size() / 6);
+class GetID
+{
+    public static int getID(ArrayList<String> db) {
+        int foo = 0;
+        foo = (db.size() / 6);
+        return foo;
     }
+}
 
-    public void search (String searchString)
+class Search
+{
+    public static void search (String searchString, University u)
     {
+        ArrayList<String> bar = GetDB.getDB(u);
         System.out.println("-------------------------");
         int left = 0, right = 0;
-        for(int i = 0; i < this.db.size(); i++)
+        for(int i = 0; i < bar.size(); i++)
         {
-            if(searchString.equals(this.db.get(i)))
+            if(searchString.compareTo(bar.get(i)) == 0)
             {
                 for(int k = i; k > 0; k--)
                     if(k % 6 == 0)
@@ -95,18 +112,25 @@ public class University {
                         left = k;
                         break;
                     }
-                for(int j = i; j < this.db.size(); j++)
+                for(int j = i; j < bar.size(); j++)
                     if(j % 6 == 0)
                     {
                         right = j;
                         break;
                     }
                 
-                for(int j = left; j < right; j++)
-                    System.out.print(this.db.get(j) + " ");
+                for(int m = left; m < right; m++)
+                    System.out.print(bar.get(m) + " ");
                     System.out.println();
             }
         }
         System.out.println("-------------------------");
+    }
+}
+
+class GetDB
+{
+    public static ArrayList<String> getDB(University u){
+        return u.db;
     }
 }

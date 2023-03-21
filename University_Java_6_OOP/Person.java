@@ -1,4 +1,4 @@
-package University_Java_5_OOP;
+package University_Java_6_OOP;
 
 public class Person {
     
@@ -15,13 +15,6 @@ public class Person {
         this.sex = sex;
         this.position = position;
         this.faculty = faculty;
-    }
-
-    public String getMe()
-    {
-        String foo = this.firstName + ";" + this.secondName + ";" +
-        this.sex + ";" + this.position + ";" + this.faculty;
-        return foo;
     }
 
     @Override
